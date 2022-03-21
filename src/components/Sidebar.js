@@ -1,17 +1,4 @@
 import React from "react"
-   /**
-     * Challenge: Try to figure out a way to display only the 
-     * first line of note.body as the note summary in the
-     * sidebar.
-     * 
-     * Hint 1: note.body has "invisible" newline characters
-     * in the text every time there's a new line shown. E.g.
-     * the text in Note 1 is:
-     * "# Note summary\n\nBeginning of the note"
-     * 
-     * Hint 2: See if you can split the string into an array
-     * using the "\n" newline character as the divider
-     */
 export default function Sidebar(props) {
     const noteElements = props.notes.map((note, index) => {
        return (
@@ -23,12 +10,12 @@ export default function Sidebar(props) {
                     }`}
                     onClick={() => props.setCurrentNoteId(note.id)}
                 >
-                    <h4 className="text-snippet">{note.body.split("\n")}</h4>
+                    <h4 className="text-snippet">{note.body.split("\n")[0]}</h4>
                 </div>
             </div>
         )
     })
-
+    
     return (
         <section className="pane sidebar">
             <div className="sidebar--header">

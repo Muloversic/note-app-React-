@@ -13,12 +13,19 @@ export default function App() {
        
     }, [notes])
 
+    function setEditedNoteToTop(oldNote, text){
+        setNotes(prevNotes => {
+        const editedNote = prevNotes.filter(note => note.id !== oldNote.id)
+            oldNote.body = text
+            return [oldNote, ...editedNote]
+        })
+    }
+
     const [currentNoteId, setCurrentNoteId] = React.useState(
         (notes[0] && notes[0].id) || ""
     )
-    
+
     function createNewNote() {
-     
         const newNote = {
             id: nanoid(),
             body: "# Type your markdown note's title here"
@@ -29,9 +36,12 @@ export default function App() {
     
     function updateNote(text) {
         setNotes(oldNotes => oldNotes.map(oldNote => {
-            return oldNote.id === currentNoteId
-                ? { ...oldNote, body: text }
-                : oldNote
+            if(oldNote.id === currentNoteId){
+                setEditedNoteToTop(oldNote, text)
+                return { ...oldNote , body: text }
+            } else {
+                return oldNote
+            }
         }))
     }
     
