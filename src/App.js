@@ -29,8 +29,9 @@ export default function App() {
     
     function updateNote(text) {
         setNotes(oldNotes => oldNotes.map(oldNote => {
+            console.log(text)
             if(oldNote.id === currentNoteId){
-                setEditedNoteToTop(oldNote, text)
+                setEditedNoteToTop(oldNote, text)   
                 return { ...oldNote , body: text }
             } else {
                 return oldNote
@@ -46,18 +47,21 @@ export default function App() {
         })
     }
 
-    function findCurrentNote() {
+    function findCurrentNote(isDeleted) {
+        if(isDeleted) return notes[0]
         return notes.find(note => {
             return note.id === currentNoteId
         }) || notes[0]
     }
-    
+
       function deleteNote(event, noteId) {
         event.stopPropagation()
         setNotes(prevNotes => {
             const notesArray = prevNotes.filter(note => note.id !== noteId)
-                return [...notesArray]
+                return notesArray
             })
+
+        setCurrentNoteId(notes[0].id)
     }
 
     return (
