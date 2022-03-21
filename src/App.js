@@ -7,13 +7,18 @@ import {nanoid} from "nanoid"
 
 export default function App() {
     const savedNote = localStorage.getItem('notes')
-    const [notes, setNotes] = React.useState(JSON.parse(savedNote) || [])
-    React.useEffect(() => localStorage.setItem('notes',JSON.stringify(notes)))
+    const [notes, setNotes] = React.useState(() => JSON.parse(savedNote) || [])
+    React.useEffect(() => {
+        localStorage.setItem("notes", JSON.stringify(notes))
+       
+    }, [notes])
+
     const [currentNoteId, setCurrentNoteId] = React.useState(
         (notes[0] && notes[0].id) || ""
     )
     
     function createNewNote() {
+     
         const newNote = {
             id: nanoid(),
             body: "# Type your markdown note's title here"
@@ -23,9 +28,12 @@ export default function App() {
     }
     
     function updateNote(text) {
+        
+        const title = text.split(/(\n)/)
+        // console.log(title)
         setNotes(oldNotes => oldNotes.map(oldNote => {
             return oldNote.id === currentNoteId
-                ? { ...oldNote, body: text }
+                ? { ...oldNote, body: text, title:title  }
                 : oldNote
         }))
     }
