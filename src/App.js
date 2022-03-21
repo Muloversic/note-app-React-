@@ -66,7 +66,10 @@ export default function App() {
     
       function deleteNote(event, noteId) {
         event.stopPropagation()
-        // Your code here
+        setNotes(prevNotes => {
+            const notesArray = prevNotes.filter(note => note.id !== noteId)
+                return [...notesArray]
+            })
     }
 
     return (
@@ -84,6 +87,7 @@ export default function App() {
                     currentNote={findCurrentNote()}
                     setCurrentNoteId={setCurrentNoteId}
                     newNote={createNewNote}
+                    deleteNote={deleteNote}
                 />
                 {
                     currentNoteId && 
