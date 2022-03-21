@@ -28,12 +28,9 @@ export default function App() {
     }
     
     function updateNote(text) {
-        
-        const title = text.split(/(\n)/)
-        // console.log(title)
         setNotes(oldNotes => oldNotes.map(oldNote => {
             return oldNote.id === currentNoteId
-                ? { ...oldNote, body: text, title:title  }
+                ? { ...oldNote, body: text }
                 : oldNote
         }))
     }
